@@ -10,12 +10,12 @@ int main()
 	cin >> bin;
 	tam = bin;
 	do
-
 	{
 		dec = dec + (tam % 10) * pow(2, i);
 		tam = tam / 10;
 		i++;
 	} while (tam > 0);
+	
 	cout << "So he 10 la: " << dec << endl;
 	system("pause");
 	return 0;
