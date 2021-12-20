@@ -14,7 +14,10 @@ int main()
 		int i = 2;
 		while (i <= sqrt(static_cast<double>(n)) && laNguyenTo == true)
 		{
-			laNguyenTo = false;
+			if(n % i == 0)
+			{
+				laNguyenTo = false;
+			}
 			i++;
 		}
 	}
