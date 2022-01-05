@@ -40,7 +40,7 @@ int main()
 		cin >> n >> k;
 		cout << "Nhap chieu cao:\n";
 		cin >> h;
-		if (n <= 0 || h <= 0 || k <= 0)
+		if (n <= 0 || h <= 0 || k <= 0 || n < k)
 			cout << "Nhap sai! Vui long hap lai\n";
 	} while (n <= 0 || h <= 0 || k <= 0 || n < k);
 
