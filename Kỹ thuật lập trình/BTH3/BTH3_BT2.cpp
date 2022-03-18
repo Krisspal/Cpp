@@ -29,7 +29,6 @@ int main()
 	cout<<endl;
 	delete []a;
 	a=0;
-	system("pause");
 	return 0;
 
 }
