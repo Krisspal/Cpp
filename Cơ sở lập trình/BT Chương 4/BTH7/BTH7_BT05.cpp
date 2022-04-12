@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void hoandoi(int a, int b)
+void hoandoi(int& a, int& b)
 {
 	int tam;
 	tam = a;
