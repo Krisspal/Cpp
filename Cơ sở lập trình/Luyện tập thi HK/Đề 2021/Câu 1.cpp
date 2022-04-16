@@ -1,26 +1,34 @@
 #include <iostream>
-#include <cmath>
 #include <iomanip>
+#include <cmath>
 
 using namespace std;
 
-void menu() 
+void MENU()
 {
-	cout << "1. In ra cac so nguyen to khong vuot qua n\n"
-		"2. Tinh tich tat ca cac so nguyen to khong vuot qua n\n"
-		"3. In ra cac so he 2 tu 1 den n\n"
-		"4. Thoat\n";
+	cout << "1.In ra cac so nguyen to khong vuot qua n\n";
+	cout << "2.Tinh tich tat ca cac nguyen to kohng vuot qua n\n";
+	cout << "3.In ra cac so he 2 tu 1 den n\n";
+	cout << "4.Thoat\n";
 }
 
 bool KTNT(int n)
 {
-	int i = 2;
 	bool laNguyenTo = true;
-	while (i <= sqrt(static_cast<double>(n)) && laNguyenTo == true)
+	if (n < 2)
 	{
-		if (n % i == 0)
-			laNguyenTo = false;
-		i++;
+		laNguyenTo = false;
+	}
+	else
+	{
+		for (int i = 2; i <= sqrt(n); i++)
+		{
+			if (n % i == 0)
+			{
+				laNguyenTo = false;
+				break;
+			}
+		}
 	}
 	return laNguyenTo;
 }
@@ -28,80 +36,76 @@ bool KTNT(int n)
 int Tich_NT(int n)
 {
 	int kq = 1;
-	for (int i = 2; i <= sqrt(n); i++)
+	for (int i = 2; i <= n; i++)
 	{
-		bool laNguyenTo = true;
-		if (n % i == 0)
+		if (KTNT(i))
 		{
-			continue;
+			kq *= i;
 		}
 		else
-			kq *= i;
+			continue;
 	}
 	return kq;
 }
 
 int He10_2(int n)
 {
-	int kq = 0, i = 0;
+	int bin = 0, i = 0;
 	while (n > 0)
 	{
-		kq = kq + (n % 2) * pow(10, i);
-		n /= 2;
+		bin = bin + (n % 2) * pow(10, i);
+		n = n / 2;
 		i++;
-	} 
-	return kq;
+	}
+	return bin;
 }
 
 int main()
 {
 	int n, chon;
-	do
+	do 
 	{
-		menu();
-		cout << "Chon 1 so\n";
+		MENU();
+		cout << "Nhap so muon chon\n";
 		cin >> chon;
 		if (chon == 4)
+		{
 			break;
-		cout << "Nhap so nguyen n\n";
+		}
+		cout << "Nhap so nguyen n (n > 0)\n";
 		cin >> n;
 		switch (chon)
 		{
 		case 1:
 		{
-			cout << "Cac so nguyen to tu 1 den " << n << " la\n";
-			for (int j = 2; j <= n; j++)
+			cout << "Cac so nguyen to tu 2 den " << n << " la:\n";
+			for (int i = 2; i < n; i++)
 			{
-				if (KTNT(j) == true)
-				{
-					cout << j << " ";
-				}
+				if (KTNT(i))
+					cout << i << " ";
 			}
 			cout << endl;
 			break;
-			
 		}
-
 		case 2:
 		{
-			cout << "Tich cac so nguyen to tu khong vuot qua " << n << " la " << Tich_NT(n);
-			cout << endl << endl;
-			break;
-		}
-
-		case 3:
-		{
-			cout << "Cac so tu he 10 chuyen sang he 2 la:\n";
-			for (int i = 1; i <= n; i++)
-			{
-				cout << i << " = " << He10_2(i) << endl;
-			}
+			cout << "Tich cac so nguyen to tu 2 den " << n << " la: " << Tich_NT(n);
 			cout << endl;
 			break;
 		}
-		
+		case 3:
+		{
+			cout << "Cac so he 2 tu 1 den n\n";
+			for (int i = 1; i <= n; i++)
+			{
+				cout << i << ": " << He10_2(i) << endl;
+			}
+			break;
 		}
-
-	} while (chon != 4);
+		}
+		if (chon < 1 || chon > 4 || n <= 0)
+			cout << "Nhap sai! Nhap lai\n";
+		cin.ignore();
+	} while (chon < 1 || chon > 4 || n <= 0 || chon != 4);
 	return 0;
 }
