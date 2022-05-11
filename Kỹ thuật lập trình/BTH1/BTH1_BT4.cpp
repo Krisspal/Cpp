@@ -1,108 +1,142 @@
+//Update using pointer and function
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
 
 using namespace std;
-const int M = 5, N = 6;
-int main()
+
+void TAOMANG(int** p, int r, int c)
 {
-	int a[M][N];
-	int r, c, x, chon1, chon2, tong = 0, dem = 0;
-	bool kt = false;
-	//Nhap so dong va cot
-	do
-	{
-		cout << "Nhap so dong va so cot\n";
-		cout << "So dong:\n";
-		cin >> r;
-		cout << "So cot:\n";
-		cin >> c;
-		if (r <= 0 || r > M || c <= 0 || c > N)
-		{
-			cout << "Nhap sai! Vui long nhap lai\n";
-		}
-	} while (r <= 0 || r > M || c <= 0 || c > N);
 	//Tao mang
 	for (int i = 0; i < r; i++)
 	{
 		for (int j = 0; j < c; j++)
-		{
-			a[i][j] = rand() % 100;
+		{ 
+			p[i][j] = rand() % 100;
 		}
 	}
+}
+void XUATMANG(int** p, int r, int c)
+{
 	//Xuat mang
-	cout << "Xuat mang:\n";
+	cout << "Xuat mang\n";
 	for (int i = 0; i < r; i++)
 	{
 		for (int j = 0; j < c; j++)
 		{
-			cout << setw(3) << a[i][j];
-			cout << " ";
+			cout << setw(9) << p[i][j];
 		}
 		cout << endl;
 	}
-	//Nhap dong hoac cot can tinh tong
-	do
-	{
-		cout << "Chon dong hoac cot\n";
-		cout << "Chon 1 cho dong\nChon 2 cho cot\n";
-		cin >> chon1;
-		switch (chon1)
-		{
-		case 1:
-		{
-			cout << "Nhap chi so dong can tinh:\n";
-			cin >> chon2;
-			break;
-		}
-		case 2:
-		{
-			cout << "Nhap chi so cot can tinh:\n";
-			cin >> chon2;
-			break;
-		}
-		}
-		if (chon2 <= 0 || chon2 > r || chon2 <= 0 || chon2 > c)
-		{
-			cout << "Nhap sai dong/cot! Vui long nhap lai\n";
-		}
-} while (chon2 <= 0 || chon2 > r || chon2 <= 0 || chon2 > c);
-//Tinh tong
-if (chon1 == 1)
-{
-	for (int j = 0; j < c; j++)
-	{
-		tong += a[chon2][j];
-	}
 }
-if (chon1 == 2)
+void TINHTONG(int** p, int r, int c)
 {
+	int tong = 0, chon, chon1;//chon dung de chon dong hoac cot, chon1 de chon chi so dong hoac cot
+	cout << "Tinh tong dong hoac cot\n";
+	cout << "1.Dong\n";
+	cout << "2.Cot\n";
+	cout << "Chon 1 hoac 2: "; cin >> chon;
+	switch (chon)
+	{
+	case 1:
+	{
+		cout << "Nhap so dong can tinh\n";
+		cin >> chon1;
+		chon1 = chon1 - 1;
+		for (int j = 0; j < c; j++)
+		{
+			tong += p[chon1][j];
+		}
+		break;
+	}
+	case 2:
+	{
+		cout << "Nhap so cot can tinh\n";
+		cin >> chon1;
+		chon1 = chon1 - 1;
+		for (int i = 0; i < r; i++)
+		{
+			tong += p[i][chon1];
+		}
+		break;
+	}
+	}
+	if (chon == 1)
+	{
+		cout << "Tong cac phan tu tren dong la " << tong << endl;
+
+	}
+	else
+		cout << "Tong cac phan tu tren cot la " << tong << endl;
+}
+void TIM(int** p, int r, int c)
+{
+	int posdong[50], poscot[50], n = 0, dem = 0, tim;//posdong va poscot dung de luu vi tri xuat hien
+	bool check = false;
+	cout << "Nhap so can tim trong mang\n";
+	cin >> tim;
 	for (int i = 0; i < r; i++)
 	{
-		tong += a[i][chon2];
-	}
-}
-
-cout << "Tong cac gia tri la " << tong << endl;
-cout << "Nhap so can tim trong mang\n";
-cin >> x;
-for (int i = 0; i < r; i++)
-{
-	for (int j = 0; j < c; j++)
-	{
-		if (a[i][j] == x)
+		for (int j = 0; j < c; j++)
 		{
-			kt = true;
-			dem++;
+			if (p[i][j] == tim)
+			{
+				check = true;
+				dem++;
+				if (check == true)
+				{
+					posdong[n] = i;
+					poscot[n] = j;
+					n++;
+				}
+				else
+					continue;
+			}
 		}
 	}
+	if (check)
+	{
+		cout << tim << " co xuat hien trong mang va xuat hien " << dem << " lan\n";
+		for (int n = 0; n < dem; n++)
+		{
+			cout << "Xuat hien tai cac vi tri\n";
+			cout << "Dong " << posdong[n] + 1 << " cot " << poscot[n] + 1 << endl;
+		}
+	}
+	else
+		cout << tim << " khong xuat hien trong mang\n";
 }
-
-if (kt)
+int main()
 {
-	cout << x << " co xuat hien trong mang va xuat hien " << dem << " lan" << endl;
-}
-else
-cout << x << " khong xuat hien trong mang\n";
-return 0;
+	int r, c, tim;
+	int** p;
+	//Cap phat mang
+	do
+	{
+		cout << "Nhap so dong\n";
+		cin >> r;
+		cout << "Nhap so cot\n";
+		cin >> c;
+		if (r < 1 || c < 1 || r > 5 || c > 6)
+		{
+			cout << "Nhap sai! Nhap lai\n";
+		}
+	} while (r < 1 || c < 1 || r > 5 || c > 6);
+	p = new int*[r];
+	for (int i = 0; i < r; i++)
+	{
+		*(p + i) = new int[c];
+	}
+	TAOMANG(p, r, c);
+	XUATMANG(p, r, c);
+	TINHTONG(p, r, c);
+	TIM(p, r, c);
+	//Huy cap phat
+	for (int i = 0; i < r; i++)
+	{
+		delete[]p[i];
+	}
+	delete[]p;
+	p = NULL;
+	return 0;
 }
