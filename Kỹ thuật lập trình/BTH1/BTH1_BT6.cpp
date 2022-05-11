@@ -3,12 +3,77 @@
 #include <cstdlib>
 
 using namespace std;
-const int M = 50, N = 50;
+
+void TAOMATRAN(int** a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			a[i][j] = rand() % 100;
+		}
+	}
+}
+void XUATMATRAN(int** a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << setw(9) << a[i][j];
+		}
+		cout << endl;
+	}
+}
+void TONG(int** p1, int** p2, int n)
+{
+	int** tong;
+	tong = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		tong[i] = new int[n];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			tong[i][j] = p1[i][j] + p2[i][j];
+		}
+	}
+	XUATMATRAN(tong, n);
+	for (int i = 0; i < n; i++)
+	{
+		delete []tong[i];
+	}
+	delete[]tong;
+	tong = 0;
+}
+void TICH(int** p1, int** p2, int n)
+{
+	int** tich;
+	tich = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		tich[i] = new int[n];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			tich[i][j] = p1[i][j] * p2[i][j];
+		}
+	}
+	XUATMATRAN(tich, n);
+	for (int i = 0; i < n; i++)
+	{
+		delete[]tich[i];
+	}
+	delete[]tich;
+	tich = 0;
+}
 int main()
 {
-	int a[M][N], b[M][N], tong[M][N], tich[M][N],
-		n;
-
+	int** p1, ** p2, ** tong, ** tich, n;
 	//Nhap cap cua 2 ma tran vuong
 	do
 	{
@@ -19,81 +84,28 @@ int main()
 			cout << "Nhap sai! Vui long nhap lai\n";
 		}
 	} while (n > 50 || n <= 0);
-	//Tao ma tran 1
+	//Cap phat mang
+	p1 = new int* [n];
+	p2 = new int* [n];
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < n; j++)
-		{
-			a[i][j] = rand() % 100;
-		}
+		p1[i] = new int[n];
+		p2[i] = new int[n];
 	}
-	//Tao ma tran 2
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			b[i][j] = rand() % 100;
-		}
-	}
+	//Tao ma tran
+	TAOMATRAN(p1, n);
+	TAOMATRAN(p2, n);
 	//Xuat ma tran
 	cout << "Ma tran 1\n";
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			cout << setw(5) << a[i][j];
-		}
-		cout << endl;
-	}
+	XUATMATRAN(p1, n);
 	cout << "Ma tran 2\n";
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			cout << setw(5) << b[i][j];
-		}
-		cout << endl;
-	}
+	XUATMATRAN(p2, n);
 	//Tinh tong 2 ma tran
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			tong[i][j] = a[i][j] + b[i][j];
-		}
-	}
+	cout << "Tong 2 ma tran\n";
+	TONG(p1, p2, n);
 	//Tinh tich 2 ma tran
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			int tong = 0;
-			for (int r = 0; r < n; r++)
-				tong = tong + a[i][r] * b[r][j];
-			tich[i][j] = tong;
-		}
-		
-	}
-	//Xuat ket qua
-	cout << "Tong cua 2 ma tran\n";
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			cout <<setw(5) << tong[i][j];
-		}
-		cout << endl;
-	}
-	cout << "Tich cua 2 ma tran\n";
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			cout << setw(9) << tich[i][j];
-		}
-		cout << endl;
-	}
-	
+	cout << "Tich 2 ma tran\n";
+	TICH(p1, p2, n);
 	return 0;
-		
+
 }
