@@ -62,47 +62,47 @@ int main()
 			break;
 		}
 		}
-		if} (chon2 <= 0 || chon2 > r || chon2 <= 0 || chon2 > c)
+		if (chon2 <= 0 || chon2 > r || chon2 <= 0 || chon2 > c)
 		{
 			cout << "Nhap sai dong/cot! Vui long nhap lai\n";
 		}
-	} while (chon2 <= 0 || chon2 > r || chon2 <= 0 || chon2 > c);
-	//Tinh tong
-	if (chon1 == 1)
-	/*{
-		for (int j = 0; j < c; j++)
-		{
-			tong += a[chon2][j];
-		}
-	}
-	if (chon1 == 2)
+} while (chon2 <= 0 || chon2 > r || chon2 <= 0 || chon2 > c);
+//Tinh tong
+if (chon1 == 1)
+{
+	for (int j = 0; j < c; j++)
 	{
-		for (int i = 0; i < r; i++)
-		{
-			tong += a[i][chon2];
-		}
-	}*/
-	
-	cout <<"Tong cac gia tri la "<< tong << endl;
-	cout << "Nhap so can tim trong mang\n";
-	cin >> x;
+		tong += a[chon2][j];
+	}
+}
+if (chon1 == 2)
+{
 	for (int i = 0; i < r; i++)
 	{
-		for (int j = 0; j < c; j++)
+		tong += a[i][chon2];
+	}
+}
+
+cout << "Tong cac gia tri la " << tong << endl;
+cout << "Nhap so can tim trong mang\n";
+cin >> x;
+for (int i = 0; i < r; i++)
+{
+	for (int j = 0; j < c; j++)
+	{
+		if (a[i][j] == x)
 		{
-			if (a[i][j] == x)
-			{
-				kt = true;
-				dem++;
-			}
+			kt = true;
+			dem++;
 		}
 	}
+}
 
-	if (kt)
-	{
-		cout << x << " co xuat hien trong mang va xuat hien " << dem << " lan" << endl;
-	}
-	else
-		cout << x << " khong xuat hien trong mang\n";
-	return 0;
+if (kt)
+{
+	cout << x << " co xuat hien trong mang va xuat hien " << dem << " lan" << endl;
+}
+else
+cout << x << " khong xuat hien trong mang\n";
+return 0;
 }
