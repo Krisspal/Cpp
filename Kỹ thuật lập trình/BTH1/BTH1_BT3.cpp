@@ -9,7 +9,7 @@ int main()
 	int a[M][N];
 	int r, c, tong = 0, min = a[0][0], max = a[0][0], posmax1, posmax2, posmin1, posmin2;
 	//Nhap so dong va cot
-	/*do
+	do
 	{
 		cout << "Nhap so dong va so cot\n";
 		cout << "So dong:\n";
@@ -20,7 +20,7 @@ int main()
 		{
 			cout << "Nhap sai! Vui long nhap lai\n";
 		}
-	} while (r <= 0 || r > M || c <= 0 || c > N);*/
+	} while (r <= 0 || r > M || c <= 0 || c > N);
 	//Tao mang
 	for (int i = 0; i < r; i++)
 	{
