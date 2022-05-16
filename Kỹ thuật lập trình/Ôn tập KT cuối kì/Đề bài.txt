@@ -19,3 +19,4 @@ Viết chương trình thực hiện các theo các yêu cầu sau:
 - Dùng cấp phát động mảng một chiều SV: kiểu SINHVIEN có n phần tử được nhập từ bàn phím (n >= 1 và n <= 50).
 - Ghi thông tin của từng sinh viên vào file “D:\Cau 3.txt”.
 - Nhập vào MaSV; rồi đọctừ file “D:\Cau 3.txt” kiểm tra MaSV có trong file không? Nếu không tìm thấy thì xuất ra màn hình thông báo “Không tìm thấy”, ngược lại tìm thấy và xuất theo dạng:
+                           MaSV | HoSV TenSV | Ngaysinh | DTK
