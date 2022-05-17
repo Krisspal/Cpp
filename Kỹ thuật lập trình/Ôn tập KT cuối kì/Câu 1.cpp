@@ -2,6 +2,7 @@
 #include <iomanip>
 using namespace std;
 
+//Tao mang xoan oc nguoc chieu kim dong ho
 void TAOMANG(int** a,const int n)
 {
 	//In tu so lon nhat tu ben ngoai vao trong
@@ -28,11 +29,44 @@ void TAOMANG(int** a,const int n)
 		{
 			a[j][cot1] = dem--;//Cot trai
 		}
-		//Di dan vao trong tam
+		//Di dan vao trung tam
 		hang1++; hang2--; 
 		cot1--; cot2++;
 	}
 }
+
+//Tao mang xoan oc cung chieu kim dong ho
+/*void TAOMANG(int** a, int n)
+{
+	int hang1 = 0, cot1 = n - 1, //Hang tren cung va cot ben phai
+		hang2 = n - 1, cot2 = 0,//Hang duoi cung va cot ben phai
+		dem = n * n; //Bien in so, bat dau tu so lon nhat
+
+	while (dem >= 1)
+	{
+		for (int i = hang1; i < hang2; i++)
+		{
+			a[i][cot1] = dem--;//Hang tren cung
+		}
+		for (int j = cot1; j >= cot2; j--)
+		{
+			a[hang2][j] = dem--;//Cot phai
+		}
+		for (int i = hang2 - 1 ; i >= hang1; i--)
+		{
+			a[i][cot2] = dem--;//Hang duoi cung
+		}
+		for (int j = cot2 + 1 ; j <= cot1 - 1; j++)
+		{
+			a[hang1][j] = dem--;//Cot trai
+		}
+		//Di dan vao trung tam
+		cot1--; cot2++;
+		hang1++; hang2--;
+	
+	}
+}*/
+
 void XUATMANG(int** a,const int n)
 {
 	cout << "Xuat mang\n";
