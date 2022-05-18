@@ -55,6 +55,7 @@ void NHAPTHONGTINSV(SINHVIEN* SV, int soSV, string filelocation)
 			outFile << SV[i].DCK;
 		}
 		cout << "Ghi file thanh cong!\n";
+		outFile.close();
 	}
 	else
 		cout << "Khong mo duoc file\n";
@@ -102,6 +103,7 @@ void XUATTHONGTINSV(SINHVIEN* SV, int soSV, string filelocation)
 			}
 		}
 	}
+	inFile.close();
 }
 int main()
 {
