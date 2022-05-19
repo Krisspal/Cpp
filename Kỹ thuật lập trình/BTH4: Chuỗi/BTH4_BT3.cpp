@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cctype>
-
 using namespace std;
 
 //a
@@ -16,15 +15,15 @@ void XOASP(char* s, int& n)
 	cout << endl;
 }
 //b
-int *DEMSP(char* s, int &n)
+void DEMSP(char* s, int& n)
 {
-	int *dem = 0;
-	for (int i = 0; i < n; i++)
+	int dem = 0;
+	for (int i = 0;i < n ; i++)
 	{
-		if (isspace(s[i]))
-			dem += 1;
+		if(isspace(s[i]))
+			dem++;
 	}
-	return dem;
+	cout << "So khoang trang cua chuoi la " << dem << endl;
 }
 //c
 void DEMCHARNUM(char* s, int& n)
@@ -34,14 +33,14 @@ void DEMCHARNUM(char* s, int& n)
 	{
 		if (isalpha(s[i]))
 			demchu++;
-		if (isalnum(s[i]))
+		if (isdigit(s[i]))
 			demso++;
 	}
 	cout << "So chu cai trong chuoi la " << demchu << endl;
 	cout << "So chu so trong chuoi la " << demso << endl;
 }
 //d
-int DEMUPPER(char* s, int& n)
+void DEMUPPER(char* s, int& n)
 {
 	int dem = 0;
 	for (int i = 0; i < n; i++)
@@ -49,10 +48,10 @@ int DEMUPPER(char* s, int& n)
 		if (isupper(s[i]))
 			dem++;
 	}
-	return dem;
+	cout << "So chu cai in hoa trong chuoi la " << dem << endl;
 }
 //e
-int DEMLOWER(char* s, int& n)
+void DEMLOWER(char* s, int& n)
 {
 	int dem = 0;
 	for (int i = 0; i < n; i++)
@@ -60,49 +59,52 @@ int DEMLOWER(char* s, int& n)
 		if (islower(s[i]))
 			dem++;
 	}
-	return dem;
+	cout << "So chu cai in thuong trong chuoi la " << dem << endl;
 }
 //f
-void UPPER(char* s, int& n)
+char* UPPER(char* s, int& n)
 {
 	for (int i = 0; i < n; i++)
 	{
-		if (islower(s[i]))
+		if (islower(s[i]) )
 			s[i] = s[i] - 32;
 	}
+	return s;
 }
 //g
-void LOWER(char* s, int& n)
+char* LOWER(char* s, int& n)
 {
 	for (int i = 0; i < n; i++)
 	{
 		if (isupper(s[i]))
 			s[i] = s[i] + 32;
 	}
+	return s;
 }
 //h
-void UPPER1STCHAR(char* s, int& n)
+char* UPPER1STCHAR(char* s, int& n)
 {
 	if (islower(s[0]))
 		s[0] = s[0] - 32;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n - 1 ; i++)
 	{
-		if (isspace(s[i]))
-		{
-			if (islower(s[i + 1]))
-			{
-				s[i + 1] = s[i + 1] - 32;
-			}
-		}
+		if (isspace(s[i]) && islower(s[i + 1]))
+			s[i + 1] = s[i + 1] - 32;	
+		else
+			if (!isspace(s[i + 1]) && isupper(s[i + 1]))
+				s[i + 1] += 32;
 	}
+	return s;
 }
 //i
 int DEMCHAR(char* s, int& n)
 {
 	int dem = 0;
-	for (int i = 0; i < n; i++)
+	if (s[0] != ' ')
+		dem = 1;
+	for (int i = 0; i < n - 1; i++)
 	{
-		if (!isspace(s[i]))
+		if (s[i] == ' ' && s[i + 1] != ' ')
 			dem++;
 	}
 	return dem;
@@ -118,9 +120,16 @@ int main()
 	//a
 	XOASP(s, n);
 	cout << s;
+	cout << endl;
 	//b
-	cout << "So khoang trang cua chuoi la " << *DEMSP << endl;
+	DEMSP(s, n);
 	//c
 	DEMCHARNUM(s, n);
+	DEMUPPER(s, n);
+	DEMLOWER(s, n);
+	cout << UPPER(s, n) << endl;;
+	cout << LOWER(s, n) << endl;
+	cout << UPPER1STCHAR(s, n) << endl;
+	cout << DEMCHAR(s, n) << endl;
 	return 0;
 }
