@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cctype>
 
 
 using namespace std;
@@ -13,49 +14,91 @@ struct SanPham
 	int tonkho;
 };
 
-void NHAP(SanPham*  arrSP, int n)
+void NHAPTHONGTINSP(SanPham* SP, const int n)
 {
-	arrSP = new SanPham[n];
 	for (int i = 0; i < n; i++)
 	{
-		cout << "Nhap ma san pham:\n";
-		cin.getline(arrSP[i].MSP, 10);
+		cout << "Nhap thong tin san pham " << i + 1 << endl;
+		cout << "Nhap ma san pham (toi da 10 ky tu):\n";
+		cin.get(SP[i].MSP, 10);
 		cout << "Nhap ten san pham:\n";
-		getline(cin, arrSP[i].TENSP);
+		getline(cin, SP[i].TENSP);
 		cout << "Nhap don gia:\n";
-		cin >> arrSP[i].gia;
+		cin >> SP[i].gia;
 		cout << "Nhap so luong ton:\n";
-		cin >> arrSP[i].tonkho;
+		cin >> SP[i].tonkho;
 		cin.ignore();
 	}
 }
 
-void XUAT(SanPham* p, int n)
+void XUATTHONGTINSP(SanPham* SP, const int n)
 {
-	cout << "Thong tin san pham thu " << n + 1 << ":\n";
-	cout << "Ma san pham: " <<  
-	cout << "Nam sinh:" << sv[n].namsinh << endl;
-	cout << "Dia chi: " << sv[n].diachi << endl;
-	cout << "Diem toan, van, ngoai ngu:\n";
-	cout << "Toan: " << sv[n].toan << endl;
-	cout << "Van: " << sv[n].van << endl;
-	cout << "Ngoai ngu: " << sv[n].nn << endl;
+	for (int i = 0; i < n; i++)
+	{
+		cout << "San pham thu " << i + 1 << endl;
+		cout << "Ma san pham:";
+		cout << SP[i].MSP << endl;
+		cout << "Ten san pham:";
+		cout << SP[i].TENSP << endl;
+		cout << "Nhap don gia: ";
+		cout << SP[i].gia << endl;
+		cout << "So luong ton: ";
+		cout << SP[i].tonkho << endl;
+	}
 }
 
+bool SOSANH_MSP(const char* MSP, const char* MSP_Canxoa)
+{
+	if (strcmp(MSP, MSP_Canxoa) == 0)
+		return true;
+	else
+		return false;
+}
+
+void XOATHONGTINSP(SanPham* SP, int& n)
+{
+	char MSP_Canxoa[10];
+	cout << "Nhap MSP can xoa\n";
+	cin.get(MSP_Canxoa, 10);
+	for (int i = 0; i < n; i++)
+	{
+		if (SOSANH_MSP(SP[i].MSP, MSP_Canxoa))
+		{
+			int j = i;
+			for (i = j; i < n; i++)
+			{
+				SP[i] = SP[i + 1];
+			}
+			n--;
+		}
+	}
+	cout << "Da xoa thong tin sna pham\n";
+}
+//void SUATHONGTINSP(SanPham* SP, const int n)
+//{
+//	char MSP_Cansua[10];
+//	cout << "Nhap MSP can sua thong tin\n";
+//	cin.get(MSP_Cansua, 10);
+//
+//}
 int main()
 {
-	SanPham *p;
+	SanPham* p;
 	int n;
-	/*int* a;*/
 	do
 	{
 		cout << "Nhap so luong san pham:\n";
 		cin >> n;
 		if (n <= 0 || n > 30)
 		{
-			cout << "Nhap sai!Nhap lai\n";
+			cout << "Nhap sai! Nhap lai\n";
 		}
 	} while (n <= 0 || n > 30);
 	p = new SanPham[n];
-	NHAP(p, n);
+	NHAPTHONGTINSP(p, n);
+	XUATTHONGTINSP(p, n);
+	XOATHONGTINSP(p, n);
+	delete[]p;
+	p = 0;
+	return 0;
 }
