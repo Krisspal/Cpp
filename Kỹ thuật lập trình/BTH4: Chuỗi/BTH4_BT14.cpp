@@ -11,7 +11,7 @@ int main()
 	cout << "Nhap ky tu can kiem tra: ";
 	cin >> c;
 	size_t pos = s.find(c, 0);
-	while (pos != string::npos)
+	while (pos != -1)
 	{
 		dem++;
 		pos = s.find(c, pos + 1);
