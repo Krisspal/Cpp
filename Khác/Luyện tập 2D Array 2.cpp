@@ -1,5 +1,5 @@
 /*Cho ma trận a có tối đa 100 phần tử, mỗi phần tử là một phân số (bao gồm tử số và mẫu số).Viết chương trình thực hiện các yêu cầu sau :
--Nhập và xuất ma trận, mỗi phân số xuất dạng tử / mẫu
+- Nhập và xuất ma trận, mỗi phân số xuất dạng tử / mẫu
 - Tối giản tất cả các phân số của ma trận và xuất ma trận
 - Tính tổng ma trận, kết quả tối giản.
 - Tìm phân số lớn nhất trên ma trận.
