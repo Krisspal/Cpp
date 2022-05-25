@@ -1,65 +1,52 @@
-//Not Complete
-#include <iostream>
-#include <string>
-
+#include<iostream>
+#include<string>
 using namespace std;
-const int SIZE = 20;
 
 struct NTN
 {
-	int ngay, thang, nam;
+	int Ngay, Thang, Nam;
 };
 struct Sach
 {
-	char TENSACH[SIZE];
-	char TENTG[SIZE];
-	NTN ngayxuatban;
-};
-void NHAP(Sach* s, int n)
+	char TenSach[20];
+	char TenTacgia[20];
+	NTN XB;
+}s;
+void Nhap(Sach* s,int n)
 {
 	for (int i = 0; i < n; i++)
 	{
 		cin.ignore();
 		cout << "Nhap thong tin sach thu " << i + 1 << ":\n";
-		cout << "Nhap ten sach\n";
-		for (int j = 0; j < SIZE; j++)
-		{
-			cin >> s[i].TENSACH[i];
-		}
-		cout << "Nhap ten tac gia\n";
-		for (int j = 0; j < SIZE; j++)
-		{
-			cin >> s[i].TENTG[i];
-		}
+		cout << "Nhap ten sach: \n";
+		cin.getline(s[i].TenSach, 20);
+		cout << "Nhap ten tac gia: \n";
+		cin.getline(s[i].TenTacgia, 20);
 		cout << "Nhap ngay xuat ban sach:\n";
-		cout << "Ngay: "; cin >> s[i].ngayxuatban.ngay;
-		cout << "Thang: "; cin >> s[i].ngayxuatban.thang;
-		cout << "Nam: "; cin >> s[i].ngayxuatban.nam;
+		cout << "Ngay: ";
+		cin >> s[i].XB.Ngay;
+		cout << "Thang: ";
+		cin >> s[i].XB.Thang;
+		cout << "Nam: ";
+		cin >> s[i].XB.Nam;
 	}
 }
-
-void XUAT(Sach* s, int n)
+void Xuat(Sach* s, int n)
 {
 	char tacgia[10] = "Tran Dung";
 	for (int i = 0; i < n; i++)
 	{
-		if (strcmp(s[i].TENTG, tacgia) == 0)
+		if (strcmp(s[i].TenTacgia, tacgia) == 0)
 		{
 			cout << "Thong tin sach cua tac gia Tran Dung:\n";
 			cout << "Ten sach\n";
-			for (int j = 0; j < SIZE; j++)
-			{
-				cin >> s[i].TENSACH[i];
-			}
+			cout << s[i].TenSach << endl;;
 			cout << "Ten tac gia\n";
-			for (int j = 0; j < SIZE; j++)
-			{
-				cin >> s[i].TENTG[i];
-			}
+			cout << s[i].TenTacgia[i] << endl;;
 			cout << "Ngay xuat ban sach:\n";
-			cout << "Ngay: " << s[i].ngayxuatban.ngay;
-			cout << "Thang: " << s[i].ngayxuatban.thang;
-			cout << "Nam: " << s[i].ngayxuatban.nam;
+			cout << "Ngay: " << s[i].XB.Ngay;
+			cout << "Thang: " << s[i].XB.Thang;
+			cout << "Nam: " << s[i].XB.Nam;
 		}
 	}
 }
@@ -77,8 +64,8 @@ int main()
 		}
 	} while (n <= 0 || n > 50);
 	s = new Sach[n];
-	NHAP(s, n);
-	XUAT(s, n);
+	Nhap(s, n);
+	Xuat(s, n);
 	delete[]s;
 	s = 0;
 	return 0;
