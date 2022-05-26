@@ -1,112 +1,141 @@
-//Chua xong
 #include <iostream>
 #include <string>
-#include <iomanip>
-#include <cctype>
-
-
 using namespace std;
-
 struct SanPham
 {
-	char MSP[10];
-	string TENSP;
-	double gia;
-	int tonkho;
+	char MASP[10];
+	string tenSP;
+	double donGia = 0;
+	int soluongTonKho = 0;
 };
 
-struct DanhsachSP
+void NHAPTHONGTINSP(SanPham* p, int n)
 {
-	SanPham* p;
-	int n;
-};
+	for (int i = 0; i < n; i++)
+	{
+		cin.ignore(1);
 
-void NHAPTHONGTIN1SP(SanPham &SP)
-{
-	cout << "Nhap ma san pham (toi da 10 ky tu):\n";
-	cin >> SP.MSP;
-	cin.ignore();
-	cout << "Nhap ten san pham:\n";
-	getline(cin, SP.TENSP);
-	cout << "Nhap don gia:\n";
-	cin >> SP.gia;
-	cout << "Nhap so luong ton:\n";
-	cin >> SP.tonkho;
+		cout << "\n\n\t NHAP THONG TIN SAN PHAM " << i + 1 << endl;
+		cout << "Nhap vao ma san pham : ";
+		cin.getline(p[i].MASP, 10);
+		cout << "Nhap ten san pham : ";
+		getline(cin, p[i].tenSP);
+		cout << "Nhap don gia : ";
+		cin >> (p + i)->donGia;
+		cout << "So luong ton tai kho : ";
+		cin >> (p + i)->soluongTonKho;
+	}
+	cout << endl;
 }
 
-void NHAPDANHSACHSP(DanhsachSP& DS)
+void XUATTHONGTINSP(SanPham* p, int n)
 {
+	for (int i = 0; i < n; i++)
+	{
+		cout << "\n\n\t XUAT THONG TIN SAN PHAM " << i + 1 << endl;
+		cout << "Ma san pham : " << (p + i)->MASP << endl;
+		cout << "Ten san pham : " << (p + i)->tenSP << endl;
+		cout << "Don gia : " << (p + i)->donGia << endl;
+		cout << "So luong ton tai cua kho : " << (p + i)->soluongTonKho << endl;
+	}
+	cout << endl;
+}
+
+void SUATHONGTIN(SanPham* p, int n)
+{
+	int vitri;
 	do
 	{
-		cout << "Nhap so luong san pham:\n";
-		cin >> DS.n;
-		if (DS.n <= 0 || DS.n > 30)
-		{
-			cout << "Nhap sai! Nhap lai\n";
-		}
-	} while (DS.n <= 0 || DS.n > 30);
+		cout << "Nhap vi tri can chinh sua thong tin: ";
+		cin >> vitri;
+		if (vitri < 0 || vitri > n)
+			cout << "Nhap sai! Nhap lai!\n";
+	} while (vitri < 0 || vitri > n);
 	
-	DS.p = new SanPham[DS.n];
-	for (int i = 0; i < DS.n; i++)
+	vitri--;
+	cin.ignore(1);
+
+	cout << "\n\n\t NHAP THONG TIN SAN PHAM " << vitri + 1 << endl;
+	cout << "Nhap vao ma san pham : ";
+	cin.getline((p + vitri)->MASP, 10);
+	cout << "Nhap ten san pham : ";
+	getline(cin, (p + vitri)->tenSP);
+	cout << "Nhap don gia : ";
+	cin >> (p + vitri)->donGia;
+	cout << "So luong ton tai kho : ";
+	cin >> (p + vitri)->soluongTonKho;
+	cout << endl;
+
+}
+
+void XOASANPHAM(SanPham* p, int& soSP)
+{
+	int xoa;
+	do
 	{
-		cout << "Nhap san pham thu " << i + 1 << endl;
-		NHAPTHONGTIN1SP(DS.p[i]);
+		cout << "Nhap vi tri can xoa : ";
+		cin >> xoa;
+		if (xoa < 0 || xoa > soSP)
+			cout << "Nhap sai! Nhap lai\n";
+	} while (xoa < 0 || xoa > soSP);
+	
+	xoa = xoa - 1;
+	for (int i = xoa + 1; i < soSP; i++)
+	{
+		p[i - 1] = *(p + i);
+	}
+	soSP--;
+}
+
+void HOANVI(SanPham& a, SanPham& b)
+{
+	SanPham temp = a;
+	a = b;
+	b = temp;
+}
+
+void SAPXEP_TONKHO_TANGDAN(SanPham* p, int n)
+{
+	cout << "\n\n\t Sau khi sap xep so luong kho tang dan:\n";
+	for (int i = 0; i < n - 1; i++)
+	{
+		for (int j = i + 1; j < n; j++)
+		{
+			if (p[j].soluongTonKho < p[i].soluongTonKho)
+				HOANVI(p[j], p[i]);
+		}
 	}
 }
-
-void XUATTHONGTIN1SP(SanPham SP)
-{
-	cout << "Ma san pham:";
-	cout << SP.MSP << endl;
-	cout << "Ten san pham:";
-	cout << SP.TENSP << endl;
-	cout << "Nhap don gia: ";
-	cout << SP.gia << endl;
-	cout << "So luong ton: ";
-	cout << SP.tonkho << endl;
-}
-
-void XUATDANHSACHSP(const DanhsachSP DS)
-{
-	for (int i = 0; i < DS.n; i++)
-	{
-		cout << "San pham thu " << i + 1 << endl;
-		XUATTHONGTIN1SP(DS.p[i]);
-	}
-}
-
-bool SOSANH_MSP(const char* MSP, const char* MSP_Canxoa)
-{
-	if (strcmp(MSP, MSP_Canxoa) == 0)
-		return true;
-	else
-		return false;
-}
-
-//void XOATHONGTINSP(DanhsachSP &DS)
-//{
-//	char MSP_Canxoa[10];
-//	cout << "Nhap MSP can xoa:\n";
-//	cin >> MSP_Canxoa;
-//	for (int i = 0; i < DS.n; i++)
-//	{
-//		if (SOSANH_MSP(DS.p[i]MSP, MSP_Canxoa))
-//		{
-//			for (int j = i; j < n; j++)
-//			{
-//				SP[j] = SP[j + 1];
-//			}
-//			n--;
-//		}
-//	}
-//	cout << "Da xoa thong tin san pham\n";
-//}
 
 int main()
 {
-	DanhsachSP DS;
-	NHAPDANHSACHSP(DS);
-	XUATDANHSACHSP(DS);
-	delete[]DS.p;
+	int soSP, vitri;
+	int xoa;
+	do
+	{
+		cout << "Nhap so san pham can nhap: ";
+		cin >> soSP;
+
+		if (soSP <= 0 || soSP > 30)
+			cout << "Nhap sai, vui long nhap lai:\n";
+	} while (soSP <= 0 || soSP > 30);
+	SanPham* p;
+	p = new SanPham[soSP];
+	
+	NHAPTHONGTINSP(p, soSP);
+	XUATTHONGTINSP(p, soSP);
+	
+	SUATHONGTIN(p,soSP);
+	XUATTHONGTINSP(p, soSP);
+	
+	XOASANPHAM(p, soSP);
+	XUATTHONGTINSP(p, soSP);
+	
+	SAPXEP_TONKHO_TANGDAN(p, soSP);
+	XUATTHONGTINSP(p, soSP);
+	
+	delete[]p;
+	p = NULL;
+	
 	return 0;
 }
