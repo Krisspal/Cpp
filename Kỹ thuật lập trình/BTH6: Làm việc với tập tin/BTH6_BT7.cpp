@@ -7,25 +7,19 @@ int main()
 {
 	double luong;
 	ofstream Xuat;
+	string filelocation = "D:/BT7.txt";
 	cout << "Nhap he so luong cua nhan vien\n";
 	cout << "Ket thuc nhap bang cach nhap -1\n";
-	Xuat.open("D:/BT7.txt",ios::out);
+	Xuat.open(filelocation, ios::out);
 	if (Xuat.is_open())
 	{
 		cout << "Mo file thanh cong\n";
-		for (;;)
+		do
 		{
 			cout << "Nhap he so luong: ";
 			cin >> luong;
-			if (luong < 0)
-			{
-				break;
-			}
-			else
-			{
-				Xuat << luong << " ";
-			}
-		}
+			Xuat << luong << " ";
+		}while (luong != -1);
 		cout << "Ghi file thanh cong!\n";
 		Xuat.close();
 	}
