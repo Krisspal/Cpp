@@ -1,10 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
-#define MAX 100;
+
 using namespace std;
 
-//Khai bao Node
 struct Node
 {
 	int info;
@@ -12,59 +11,12 @@ struct Node
 };
 Node* first;
 
-//Khoi tao danh sach rong
 void init()
 {
 	first = NULL;
 }
 
-//Them mot phan tu vao dau danh sach
-void Insert_First(int x)
-{
-	Node* p = new Node;
-	p->info = x;
-	p->link = NULL;
-	first = p;
-}
-
-
-//Xuat cac phan tu trong danh sach
-void Process_list()
-{
-	Node* p = first;
-	while (p != NULL)
-	{
-		cout << p->info << "\t";
-		p = p->link;
-	}
-}
-
-//Tim phan tu trong danh sach
-Node* Search(int x)
-{
-	Node* p = first;
-	while ((p != NULL) && (p->info != x))
-	{
-		p = p->link;
-	}
-	return p;
-}
-
-//Xoa phan tu dau danh sach
-int Delete_First()
-{
-	if (first != NULL)
-	{
-		Node* p = first;
-		first = first->link;
-		delete p;
-		return 1;
-	}
-	return 0;
-}
-
-//Them phan tu vao cuoi danh sach
-void Insert_Last(int x)
+void Insert(int x)
 {
 	Node* p = new Node;
 	p->info = x;
@@ -84,31 +36,62 @@ void Insert_Last(int x)
 	}
 }
 
-//Nhap cac phan tu vao danh sach
 void Input_List()
 {
-	int n, a;
-	cout << "Nhap so phan tu muon nhap\n";
+	int n, x;
+	cout << "Nhap so phan tu muon nhap vao danh sach:\n";
 	cin >> n;
-	for (int i = 0; i < n; ++i)
+	for (int i = 0; i < n; i++)
 	{
 		cout << "Nhap phan tu thu " << i + 1 << ": ";
-		cin >> a;
-		Insert_Last(a);
+		cin >> x;
+		Insert(x);
 	}
 }
 
-//Xoa phan tu cuoi danh sach
+void Process()
+{
+	Node* p = first;
+	while (p != NULL)
+	{
+		cout << p->info << "\t";
+		p = p->link;
+	}
+	cout << endl;
+}
+
+Node* Search(int x)
+{
+	Node* p = first;
+	while ((p != NULL) && (p->info != x))
+	{
+		p = p->link;
+	}
+	return p;
+}
+
+int Delete_First()
+{
+	if (first != NULL)
+	{
+		Node* p = first;
+		first = first->link;
+		delete p;
+		return 1;
+	}
+	return 0;
+}
+
 int Delete_Last()
 {
 	if (first != NULL)
 	{
-		Node* q, *p;
+		Node* q, * p;
 		p = first;
 		q = NULL;
 		if (p != NULL)
 		{
-			while (p-> link != NULL)
+			while (p->link != NULL)
 			{
 				q = p;
 				p = p->link;
@@ -128,136 +111,95 @@ int Delete_Last()
 	return 0;
 }
 
-//Xoa phan tu chi dinh trong danh sach
-void Delete_X(int x)
+int Delete_X(int x)
 {
 	if (first != NULL)
 	{
-		struct Node* p = first;
 		if (first->info = x)
 		{
-			first = first->link;
-			delete p;
+			return Delete_First();
 		}
+	}
+	else
+	{
+		Node* current = first, * pre = new Node;
+		pre = current;
+		while (current != NULL && current->info != x)
+		{
+			pre = current;
+			current = current->link;
+		}
+		if (current == NULL)
+			return Delete_Last();
 		else
 		{
-			struct Node* q = NULL;
-			while (p != NULL && p->info != x)
-			{
-				q = p;
-				p = p->link;
-			}
-			if (p != NULL)
-			{
-				q->link = p->link;
-				delete p;
-			}
+			pre->link = current->link;
+			delete current;
+			return 1;
 		}
 	}
+	return -1;
 }
 
-//In ra danh sach dac
-void Print_Array(int a[], int n)
+void Search_Input(int x)
 {
-	for (int i = 0; i < n; ++i)
+	if (first == NULL)
 	{
-		cout << a[i] << "\t";
-		if (i % 10 == 9)
-		{
-			cout << endl;
-		}
+		cout << "Them that bai\n";
 	}
+	Node* pre_node = first;
+	while ((pre_node->link != NULL) && (pre_node->info < x - 1))
+	{
+		pre_node = pre_node->link;
+	}
+
+	Node* new_node = new Node;
+	new_node->info = x;
+	new_node->link = pre_node->link;
+	pre_node->link = new_node;
+	cout << "Them thanh cong\n";
 }
 
-//Tim so phan tu trong danh sach lien ket
-int Findlength(Node* first)
-{
-	Node* current = first;
-	int length = 0;
-	while (current != NULL)
-	{
-		length++;
-		current = current->link;
-	}
-	return length;
-}
-
-//Chuyen tu danh sach lien ket sang danh sach dac
-void ConvertArray(Node* first)
-{
-	int len = Findlength(first), index = 0, arr[100];
-	Node* current = first;
-	while (current != NULL)
-	{
-		arr[index++] = current->info;
-		current = current->link;
-	}
-	Print_Array(arr, len);
-	cout << endl;
-}
-
-//Xoa toan bo danh sach
-int Delete_List()
-{
-	Node* p = first;
-	Node* q = NULL;
-	if (first != NULL)
-	{
-		while (p != NULL)
-		{
-			q = p->link;
-			delete p;
-			p = q;
-		}
-		first = NULL;
-		return 1;
-	}
-	return 0;
-}
-
-//Menu hien thi cac lua chon
 void menu()
 {
-	cout << "Menu:\n";
-	cout << "1. Nhap phan tu vao danh sach\n";
-	cout << "2. Xuat danh sach\n";
-	cout << "3. Tim phan tu trong danh sach\n";
-	cout << "4. Xoa phan tu dau danh sach\n";
-	cout << "5. Xoa phan tu cuoi danh sach\n";
-	cout << "6. Xoa phan tu chi dinh trong danh sach\n";
-	cout << "7. Chuyen tu danh sach lien ket don sang danh sach dac\n";
-	cout << "8. Xoa toan bo danh sach\n";
-	cout << "9. Thoat\n";
+	cout << "Menu:\n"
+		<< "1. Nhap phan tu vao danh sach\n"
+		<< "2. Xuat danh sach\n"
+		<< "3. Tim phan tu trong danh sach\n"
+		<< "4. Xoa phan tu chi dinh trong danh sach\n"
+		<< "5. Chen phan tu vao danh sach\n"
+		<< "6. Thoat\n";
 }
 
 int main()
 {
 	init();
-	int chon, x, y;
+	int chon, x1, x2, x3;
 	bool checkinput = false; //Kiem tra xem da nhap danh sach vao chua
 	do
 	{
 		menu();
-	
+
 		cout << "Chon: ";
 		cin >> chon;
-		
+
 		if (chon == 1)
 		{
 			checkinput = true;
 		}
-		
-		if (checkinput == false && chon != 9)
+
+		if (checkinput == false && chon != 6)
 		{
-			cout <<"Ban chua tao danh sach! Hay nhap danh sach truoc!\n";
+			cout << "Ban chua tao danh sach! Hay nhap danh sach truoc!\n";
 			continue;
 		}
-		
+
 		switch (chon)
 		{
 		case 1:
 		{
 			Input_List();
+			cout << "Nhap thanh cong!\n";
 			break;
 		}
 		case 2:
@@ -268,8 +210,8 @@ int main()
 			}
 			else
 			{
-				cout << "Xuat danh sach\n";
-				Process_list();
+				cout << "Xuat danh sach:\n";
+				Process();
 			}
 			cout << endl;
 			break;
@@ -277,57 +219,29 @@ int main()
 		case 3:
 		{
 			cout << "Nhap phan tu muon tim: ";
-			cin >> x;
-			if (Search(x) != NULL)
-				cout << "Tim thay " << x << endl;
+			cin >> x1;
+			if (Search(x1) != NULL)
+				cout << "Tim thay phan tu co gia tri " << x1 << endl;
 			else
-				cout << "Khong tim thay " << x << endl;
+				cout << "Khong tim thay phan tu co gia tri " << x1 << endl;
 			break;
 		}
 		case 4:
 		{
-			int kq = Delete_First();
-			if (kq == 1)
-				cout << "Xoa thanh cong\n";
-			else
-				cout << "Xoa khong thanh cong\n";
+			cout << "Nhap phan tu muon xoa: ";
+			cin >> x2;
+			Delete_X(x2);
 			break;
 		}
 		case 5:
 		{
-			int kq = Delete_Last();
-			if (kq == 1)
-				cout << "Xoa thanh cong\n";
-			else
-				cout << "Xoa khong thanh cong\n";
-			break;
-		}
-		case 6:
-		{
-			cout << "Nhap phan tu muon xoa: ";
-			cin >> y;
-			Delete_X(y);
-			break;
-		}
-		case 7:
-		{
-			ConvertArray(first);
-			break;
-		}
-		case 8:
-		{
-			if (Delete_List() == 1)
-			{
-				cout << "Xoa thanh cong\n";
-			}
-			else
-			{
-				cout << "Xoa that bai\n";
-			}
+			cout << "Nhap phan tu muon chen\n";
+			cin >> x3;
+			Search_Input(x3);
 			break;
 		}
 		}
-	} while (chon != 9);
-	
+	} while (chon != 6);
+
 	return 0;
 }
