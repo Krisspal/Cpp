@@ -167,6 +167,7 @@ void menu()
 		<< "4. Xoa thong tin sinh vien dua theo MSSV\n"
 		<< "5. Thoat\n";
 }
+
 int main()
 {
 	listSV* list;
