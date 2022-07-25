@@ -42,7 +42,7 @@ void Xuatds(nhanvien nv[], int n)
 void SelectionSortLuong(nhanvien nv[], int n)
 {
 	int min_pos, i, j;
-	for (i = 0; i < n -1; i++)
+	for (i = 0; i < n - 1; i++)
 	{
 		min_pos = i;
 		for (j = i + 1; j < n; j++)
