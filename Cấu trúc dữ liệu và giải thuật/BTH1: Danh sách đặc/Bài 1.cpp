@@ -153,7 +153,7 @@ int main()
 	else
 		cout << "Xoa that bai\n";
 
-	cout << "Nhap vi tri can xoa (0 < " << n - 1 << " )\n";
+	cout << "Nhap vi tri can xoa (0 < " << n - 1 << ")\n";
 	cin >> x3;
 	if (Delete(a, n, x3) == 1)
 	{
