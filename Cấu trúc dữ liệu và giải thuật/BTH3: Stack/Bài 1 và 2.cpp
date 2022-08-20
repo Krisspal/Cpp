@@ -38,7 +38,7 @@ int Push(int a[], int& sp, int x)
 
 void input_list()
 {
-	if (isFull(sp) == 1)
+	if (isFull(sp) != 1)
 	{
 		int n, x;
 		cout << "Nhap so phan tu can nhap\n";
