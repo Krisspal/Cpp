@@ -1,225 +1,206 @@
 #include <iostream>
-#include <iomanip>
 #include <string>
 
 using namespace std;
 
 struct Sinhvien
 {
-	string ten;
-	int MSSV;
-	int diem;
+	int id;
+	string name;
+	double grade;
 };
+
+Sinhvien createSinhvien()
+{
+	Sinhvien s;
+	int id;
+	string name;
+	double grade;
+	
+	cout << "Ten: ";
+	getline(cin, name);
+	cout << "Id: ";
+	cin >> id;
+	cout << "Diem trung binh: ";
+	cin >> grade;
+	s.id = id;
+	s.name = name;
+	s.grade = grade;
+
+	return s;
+}
 
 struct Node
 {
-	Sinhvien *info;
+	Sinhvien info;
 	Node* link;
 };
 
-struct listSV
-{
-	Node* first;
-};
+Node* first;
 
-
-void init(listSV* &list)
+void init()
 {
-	list = new listSV;
-	list-> first = NULL;
+	first = nullptr;
 }
 
-bool isEmpty(listSV* list)
-{
-	if (list->first == NULL)
-	{
-		return true;
-	}
-	return false;
-}
-
-Node* createNode(Sinhvien *sv)
+Node* createNode(Sinhvien x)
 {
 	Node* p = new Node;
-	if (p != NULL)
-	{
-		p->info = sv;
-		p->link = NULL;
-	}
+	p->info = x;
+	p->link = nullptr;
+	
 	return p;
 }
-
-Sinhvien* nhapThongtin()
+bool isEmpty(Node* first)
 {
-	Sinhvien *sv = new Sinhvien;
-	cout << "Nhap ten sinh vien: ";
-	cin >> sv->ten;
-	cout << "Nhap MSSV: ";
-	cin >> sv->MSSV;
-	cout << "Nhap diem cua sinh vien: ";
-	cin >> sv->diem;
-	return sv;
+	return first == nullptr;
 }
 
-void insertLast(listSV*& list, Sinhvien* sv)
+void insertFirst(Sinhvien x)
 {
-	Node* p = createNode(sv);
-	if (list->first == NULL)
-	{
-		list-> first = p;
-	}
+	Node* p = createNode(x);
+	p->link = first;
+	first = p;
+}
+
+void insertLast(Sinhvien x)
+{
+	Node* p = createNode(x);
+	if (isEmpty(first))
+		first = p;
 	else
 	{
-		Node* q = list->first;
-		while (q->link != NULL)
-		{
+		Node* q = first;
+		while (q->link != nullptr)
 			q = q->link;
-		}
 		q->link = p;
 	}
 }
 
-void printList(listSV* list)
+void outputSinhvien(Sinhvien s)
 {
-	Node* p = list->first;
-	if (isEmpty(list) == true)
+	cout << s.id << "-" << s.name << " " << s.grade << "\n";
+	cout << "==========" << endl;
+}
+
+void output()
+{
+	Node* p = first;
+
+	while (p != nullptr)
 	{
-		cout << "Danh sach rong\n";
+		outputSinhvien(p->info);
+		p = p->link;
 	}
-	else
+}
+
+Node* find(string name)
+{
+	Node* p = first;
+	while (p != nullptr && p->info.name != name)
+		p = p -> link;
+	return p;
+}
+
+Node* findMax()
+{
+	Node* p = first;
+	Node* max = first;
+	while (p != nullptr)
 	{
-		cout << "MSSV" << "\t" << "Ten" << "\t" << "Diem" << "\n";
-		while (p != NULL)
+		if (p->info.grade > max->info.grade)
+			max = p;
+		p = p->link;
+	}
+	return max;
+}
+
+void deleteFirst()
+{
+	if (first != nullptr)
+	{
+		Node* p = first;
+		first = p->link;
+		p->link = nullptr;
+		delete(p);
+	}
+}
+
+void clear() //Xoa toan bo danh sach
+{
+	while (first != nullptr)
+		deleteFirst();
+}
+
+void insertIndex(Sinhvien x, int idx)
+{
+	if (first != nullptr)
+	{
+		Node* p = first;
+		Node* pre = nullptr;
+
+		int count = 0;
+
+		while (p != nullptr && count < idx) //p == nullptr khi idx nam cuoi danh sach
 		{
-			Sinhvien* sv = p->info;
-			cout << sv->MSSV << "\t" << sv->ten << "\t" << sv->diem <<"\n";
+			pre = p;
 			p = p->link;
+			count++;
 		}
-	}
-}
-
-//Bubble Sort
-void sortDiem(listSV*& list)
-{
-	for (Node* p = list->first; p != NULL; p = p->link)
-	{
-		for (Node* q = p->link; q != NULL; q = q->link)
+		
+		if (p != nullptr) 
 		{
-			Sinhvien* sv1 = p->info;
-			Sinhvien* sv2 = q->info;
-			if (sv2->diem < sv1->diem)
+			Node* r = createNode(x);
+			if (pre == nullptr) //Chen vao dau danh sach
 			{
-				swap(p->info, q->info);
+				r->link = first;
+				first = r;
+			}
+			else //Chen vao giua danh sach
+			{
+				r->link = pre->link;
+				pre->link = r;
 			}
 		}
+		else //Neu chen vao cuoi danh sach thi p == nullptr
+			insertLast(x);
 	}
-}
-
-void Delete(listSV*& list, int MSSV)
-{
-	Node* p = list->first;
-	if (isEmpty(list) == true)
-	{
-		cout << "Danh sach rong\n";
-	}
-	else
-	{
-		Node* q = NULL;
-		while (p != NULL)
-		{
-			Sinhvien* sv = p->info;
-			if (sv->MSSV == MSSV)
-			{
-				break;
-			}
-			q = p;
-			p = p->link;
-		}
-		if (p == NULL)
-		{
-			cout << "Khong tim thay MSSV " << MSSV << endl;
-		}
-		else
-		{
-			if (p == list->first)
-			{
-				list->first = list->first->link;
-				p->link = NULL;
-				delete p;
-				p = NULL;
-			}
-			else
-			{
-				q->link = p->link;
-				p->link = NULL;
-				delete p;
-				p = NULL;
-			}
-		}
-	}
-}
-
-void menu()
-{
-	cout << "1. Nhap thong tin sinh vien\n"
-		<< "2. Xuat danh sach\n"
-		<< "3. Sap xep diem theo thu tu tang dan\n"
-		<< "4. Xoa thong tin sinh vien dua theo MSSV\n"
-		<< "5. Thoat\n";
 }
 
 int main()
 {
-	listSV* list;
-	int chon, MSSV, i = 0;
-	init(list);
-	do
+	init();
+	int idx, n;
+
+	cout << "Nhap so sinh vien can nhap thong tin: ";
+	cin >> n;
+	for (int i = 0; i < n; i++)
 	{
-		menu();
-		cout << "Chon chuc nang muon thuc hien: ";
-		cin >> chon;
-		switch (chon)
-		{
-		case 1:
-		{
-			cout << "Nhap thong tin sinh vien:\n";
-			Sinhvien* sv = nhapThongtin();
-			insertLast(list, sv);
-			i++;
-			break;
-		}
-		case 2:
-		{
-			printList(list);
-			cout << endl;
-			break;
-		}
-		case 3:
-		{
-			sortDiem(list);
-			printList(list);
-			cout << endl;
-			break;
-		}
-		case 4:
-		{
-			cout << "Nhap MSSV sinh vien muon xoa: ";
-			cin >> MSSV;
-			Delete(list, MSSV);
-			printList(list);
-			cout << endl;
-			break;
-		}
-		case 5:
-		{
-			break;
-		}
-		default:
-		{
-			cout << "Nhap chuc nang 1-5\n";
-			break;
-		}
-		}
-	} while (chon != 5);
+		cout << "Nhap thong tin sinh vien " << i + 1 << ":\n";
+		cin.ignore(1);
+		Sinhvien s = createSinhvien();
+		insertFirst(s);
+	}
+
+	output();
+
+	cout << "Nhap thong tin sinh vien muon chen:\n";
+	cin.ignore();
+	Sinhvien s = createSinhvien();
+	cout << "Nhap vi tri muon chen: ";
+	cin >> idx;
+	insertIndex(s, idx);
+	output();
+
+	cout << "Sinh vien co diem TB cao nhat la:\n";
+	Node* max = findMax();
+	outputSinhvien(max->info);
+
+	deleteFirst();
+	cout << "Danh sach sau khi xoa phan tu dau:\n";
+	output();
+
+	clear();
+
 	return 0;
 }
