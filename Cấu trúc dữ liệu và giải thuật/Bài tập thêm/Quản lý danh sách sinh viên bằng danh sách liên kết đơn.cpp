@@ -51,6 +51,7 @@ Node* createNode(Sinhvien x)
 	
 	return p;
 }
+
 bool isEmpty(Node* first)
 {
 	return first == nullptr;
