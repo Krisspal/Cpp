@@ -16,7 +16,7 @@ Sinhvien createSinhvien()
 	int id;
 	string name;
 	double grade;
-	
+
 	cout << "Ten: ";
 	getline(cin, name);
 	cout << "Id: ";
@@ -48,7 +48,7 @@ Node* createNode(Sinhvien x)
 	Node* p = new Node;
 	p->info = x;
 	p->link = nullptr;
-	
+
 	return p;
 }
 
@@ -99,7 +99,7 @@ Node* find(string name)
 {
 	Node* p = first;
 	while (p != nullptr && p->info.name != name)
-		p = p -> link;
+		p = p->link;
 	return p;
 }
 
@@ -148,8 +148,8 @@ void insertIndex(Sinhvien x, int idx)
 			p = p->link;
 			count++;
 		}
-		
-		if (p != nullptr) 
+
+		if (p != nullptr)
 		{
 			Node* r = createNode(x);
 			if (pre == nullptr) //Chen vao dau danh sach
@@ -165,6 +165,46 @@ void insertIndex(Sinhvien x, int idx)
 		}
 		else //Neu chen vao cuoi danh sach thi p == nullptr
 			insertLast(x);
+	}
+}
+
+void interchangeSortDiem()
+{
+	Node* p = first;
+	Node* q = NULL;
+	while (p != NULL)
+	{
+		q = p->link;
+		while (q != NULL)
+		{
+			if (q->info.grade < p->info.grade)
+			{
+				swap(q->info, p->info);
+
+			}
+			q = q->link;
+		}
+		p = p->link;
+	}
+}
+
+void selectionSortDiem()
+{
+	Node* p = first;
+	while (p != NULL)
+	{
+		Node* min = p;
+		Node* next = p->link;
+		while (next != NULL)
+		{
+			if (min->info.grade > next->info.grade)
+			{
+				min = next;
+			}
+			next = next->link;
+		}
+		swap(min->info, p->info);
+		p = p->link;
 	}
 }
 
