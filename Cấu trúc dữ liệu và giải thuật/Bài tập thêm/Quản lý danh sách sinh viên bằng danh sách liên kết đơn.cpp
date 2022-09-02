@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -80,14 +81,14 @@ void insertLast(Sinhvien x)
 
 void outputSinhvien(Sinhvien s)
 {
-	cout << s.id << "-" << s.name << " " << s.grade << "\n";
+	cout << s.id << setw(15) << s.name << setw(15) << s.grade << "\n";
 	cout << "==========" << endl;
 }
 
 void output()
 {
 	Node* p = first;
-
+	cout << "MSSV:" << setw(15) << "Ten:" << setw(15) << "Diem:" << endl;
 	while (p != nullptr)
 	{
 		outputSinhvien(p->info);
@@ -208,6 +209,30 @@ void selectionSortDiem()
 	}
 }
 
+void insertionSortDiem()
+{
+	Node* p = first->link;
+
+	while (p != nullptr)
+	{
+		Node* q = p;
+		Node* r = first;
+
+		while (r != p)
+		{
+			if (q->info.grade < r->info.grade)
+			{
+					Sinhvien temp = q->info;
+					q->info = r->info;
+					r->info = temp;
+			}
+			r = r->link;
+
+		}
+		p = p->link;
+	}
+}
+
 int main()
 {
 	init();
@@ -235,7 +260,12 @@ int main()
 
 	cout << "Sinh vien co diem TB cao nhat la:\n";
 	Node* max = findMax();
+	cout << "MSSV:" << setw(15) << "Ten:" << setw(15) << "Diem:" << endl;
 	outputSinhvien(max->info);
+
+	cout << "Sap xep danh sach theo diem tang dan:\n";
+	insertionSortDiem();
+	output();
 
 	deleteFirst();
 	cout << "Danh sach sau khi xoa phan tu dau:\n";
