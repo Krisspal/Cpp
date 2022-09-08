@@ -209,27 +209,23 @@ void selectionSortDiem()
 	}
 }
 
-void insertionSortDiem()
+void bubbleSortDiem()
 {
-	Node* p = first->link;
-
-	while (p != nullptr)
+	Node* current = first;
+	Node* next;
+	
+	while (current && current->link)
 	{
-		Node* q = p;
-		Node* r = first;
-
-		while (r != p)
+		next = current->link;
+		while (next)
 		{
-			if (q->info.grade < r->info.grade)
+			if (current->info.grade > next->info.grade)
 			{
-					Sinhvien temp = q->info;
-					q->info = r->info;
-					r->info = temp;
+				swap(current->info, next->info);
 			}
-			r = r->link;
-
+			next = next->link;
 		}
-		p = p->link;
+		current = current->link;
 	}
 }
 
@@ -264,7 +260,9 @@ int main()
 	outputSinhvien(max->info);
 
 	cout << "Sap xep danh sach theo diem tang dan:\n";
-	insertionSortDiem();
+	//selectionSortDiem();
+	//interchangeSortDiem();
+	bubbleSortDiem();
 	output();
 
 	deleteFirst();
