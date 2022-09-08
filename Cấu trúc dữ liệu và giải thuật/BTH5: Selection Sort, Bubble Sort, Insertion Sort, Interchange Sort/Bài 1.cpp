@@ -1,275 +1,161 @@
 #include <iostream>
-#include <string>
 #include <iomanip>
 
+#define MAX 100
+int a[MAX];
+int n;
 using namespace std;
 
-struct Sinhvien
+void swap(int& a, int& b)
 {
-	int id;
-	string name;
-	double grade;
-};
-
-Sinhvien createSinhvien()
-{
-	Sinhvien s;
-	int id;
-	string name;
-	double grade;
-
-	cout << "Ten: ";
-	getline(cin, name);
-	cout << "Id: ";
-	cin >> id;
-	cout << "Diem trung binh: ";
-	cin >> grade;
-	s.id = id;
-	s.name = name;
-	s.grade = grade;
-
-	return s;
+	int c;
+	c = a;
+	a = b;
+	b = c;
 }
 
-struct Node
+void Nhapds(int a[], int &n)
 {
-	Sinhvien info;
-	Node* link;
-};
-
-Node* first;
-
-void init()
-{
-	first = nullptr;
-}
-
-Node* createNode(Sinhvien x)
-{
-	Node* p = new Node;
-	p->info = x;
-	p->link = nullptr;
-
-	return p;
-}
-
-bool isEmpty(Node* first)
-{
-	return first == nullptr;
-}
-
-void insertFirst(Sinhvien x)
-{
-	Node* p = createNode(x);
-	p->link = first;
-	first = p;
-}
-
-void insertLast(Sinhvien x)
-{
-	Node* p = createNode(x);
-	if (isEmpty(first))
-		first = p;
-	else
+	cout << "Nhap so phan tu muon nhap\n";
+	cin >> n;
+	for (int i = 0; i < n; i++)
 	{
-		Node* q = first;
-		while (q->link != nullptr)
-			q = q->link;
-		q->link = p;
+		/*cout << "Nhap phan tu thu: " << i + 1 << ": ";
+		cin >> a[i];*/
+		a[i] = rand() % 100;
 	}
 }
 
-void outputSinhvien(Sinhvien s)
+void Xuatds(int a[], int n)
 {
-	cout << s.id << setw(15) << s.name << setw(15) << s.grade << "\n";
-	cout << "==========" << endl;
-}
-
-void output()
-{
-	Node* p = first;
-	cout << "MSSV:" << setw(15) << "Ten:" << setw(15) << "Diem:" << endl;
-	while (p != nullptr)
+	for (int i = 0; i < n; i++)
 	{
-		outputSinhvien(p->info);
-		p = p->link;
-	}
-}
-
-Node* find(string name)
-{
-	Node* p = first;
-	while (p != nullptr && p->info.name != name)
-		p = p->link;
-	return p;
-}
-
-Node* findMax()
-{
-	Node* p = first;
-	Node* max = first;
-	while (p != nullptr)
-	{
-		if (p->info.grade > max->info.grade)
-			max = p;
-		p = p->link;
-	}
-	return max;
-}
-
-void deleteFirst()
-{
-	if (first != nullptr)
-	{
-		Node* p = first;
-		first = p->link;
-		p->link = nullptr;
-		delete(p);
-	}
-}
-
-void clear() //Xoa toan bo danh sach
-{
-	while (first != nullptr)
-		deleteFirst();
-}
-
-void insertIndex(Sinhvien x, int idx)
-{
-	if (first != nullptr)
-	{
-		Node* p = first;
-		Node* pre = nullptr;
-
-		int count = 0;
-
-		while (p != nullptr && count < idx) //p == nullptr khi idx nam cuoi danh sach
+		cout << a[i] << "\t";
+		if (i % 10 == 9)
 		{
-			pre = p;
-			p = p->link;
-			count++;
+			cout << endl;
 		}
+	}
+	cout << endl;
+}
 
-		if (p != nullptr)
+void InsertionSort(int a[], int n)
+{
+	int x, i, j;
+	for (i = 1; i < n; i++)
+	{
+		x = a[i];
+		j = i - 1;
+		while (0 <= j && x < a[j])
 		{
-			Node* r = createNode(x);
-			if (pre == nullptr) //Chen vao dau danh sach
+			a[j + 1] = a[j];
+			j--;
+		}
+		a[j + 1] = x;
+	}
+}
+
+void SelectionSort(int a[], int n)
+{
+	int pos_min, j;
+	for (int i = 0; i < n; i++)
+	{
+		pos_min = i;
+		for (j = i + 1; j < n; j++)
+		{
+			if (a[j] < a[pos_min])
 			{
-				r->link = first;
-				first = r;
-			}
-			else //Chen vao giua danh sach
-			{
-				r->link = pre->link;
-				pre->link = r;
+				pos_min = j;
 			}
 		}
-		else //Neu chen vao cuoi danh sach thi p == nullptr
-			insertLast(x);
+		swap(a[pos_min], a[i]);
 	}
 }
 
-void interchangeSortDiem()
+void InterchangeSort(int a[], int n)
 {
-	Node* p = first;
-	Node* q = NULL;
-	while (p != NULL)
+	for (int i = 0; i < n - 1; i++)
 	{
-		q = p->link;
-		while (q != NULL)
+		for (int j = i + 1; j < n; j++)
 		{
-			if (q->info.grade < p->info.grade)
+			if (a[j] < a[i])
 			{
-				swap(q->info, p->info);
-
+				swap(a[i], a[j]);
 			}
-			q = q->link;
 		}
-		p = p->link;
 	}
 }
 
-void selectionSortDiem()
+void BubbleSort(int a[], int n)
 {
-	Node* p = first;
-	while (p != NULL)
+	for (int i = 0; i < n - 1; i++)
 	{
-		Node* min = p;
-		Node* next = p->link;
-		while (next != NULL)
+		for (int j = 0; j < n - i - 1; j++)
 		{
-			if (min->info.grade > next->info.grade)
+			if (a[j] > a[j + 1])
 			{
-				min = next;
+				swap(a[j], a[j + 1]);
 			}
-			next = next->link;
 		}
-		swap(min->info, p->info);
-		p = p->link;
 	}
 }
 
-void bubbleSortDiem()
+void menu()
 {
-	Node* current = first;
-	Node* next;
-	
-	while (current && current->link)
-	{
-		next = current->link;
-		while (next)
-		{
-			if (current->info.grade > next->info.grade)
-			{
-				swap(current->info, next->info);
-			}
-			next = next->link;
-		}
-		current = current->link;
-	}
+	cout << "1. Nhap danh sach\n"
+		<< "2. Xuat danh sach\n"
+		<< "3. InsertionSort\n"
+		<< "4. SelectionSort\n"
+		<< "5. InterchangeSort\n"
+		<< "6. BubbleSort\n"
+		<< "7. Thoat\n";
 }
 
 int main()
 {
-	init();
-	int idx, n;
-
-	cout << "Nhap so sinh vien can nhap thong tin: ";
-	cin >> n;
-	for (int i = 0; i < n; i++)
+	int chon;
+	do
 	{
-		cout << "Nhap thong tin sinh vien " << i + 1 << ":\n";
-		cin.ignore(1);
-		Sinhvien s = createSinhvien();
-		insertFirst(s);
-	}
-
-	output();
-
-	cout << "Nhap thong tin sinh vien muon chen:\n";
-	cin.ignore();
-	Sinhvien s = createSinhvien();
-	cout << "Nhap vi tri muon chen: ";
-	cin >> idx;
-	insertIndex(s, idx);
-	output();
-
-	cout << "Sinh vien co diem TB cao nhat la:\n";
-	Node* max = findMax();
-	cout << "MSSV:" << setw(15) << "Ten:" << setw(15) << "Diem:" << endl;
-	outputSinhvien(max->info);
-
-	cout << "Sap xep danh sach theo diem tang dan:\n";
-	//selectionSortDiem();
-	//interchangeSortDiem();
-	bubbleSortDiem();
-	output();
-
-	deleteFirst();
-	cout << "Danh sach sau khi xoa phan tu dau:\n";
-	output();
-
-	clear();
-
+		menu();
+		cout << "Nhap chuc nang muon thuc hien\n";
+		cin >> chon;
+		switch (chon)
+		{
+		case 1:
+		{
+			Nhapds(a, n);
+			break;
+		}
+		case 2:
+		{
+			Xuatds(a, n);
+			break;
+		}
+		case 3:
+		{
+			InsertionSort(a, n);
+			cout << "Sap xep thanh cong\n";
+			break;
+		}
+		case 4:
+		{
+			SelectionSort(a, n);
+			cout << "Sap xep thanh cong\n";
+			break;
+		}
+		case 5:
+		{
+			InterchangeSort(a, n);
+			cout << "Sap xep thanh cong\n";
+			break;
+		}
+		case 6:
+		{
+			BubbleSort(a, n);
+			cout << "Sap xe thanh cong\n";
+			break;
+		}
+		}
+	} while (chon != 7);
 	return 0;
 }
